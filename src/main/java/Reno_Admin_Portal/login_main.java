@@ -23,6 +23,8 @@ public class login_main {
         loginScreen.Reno_Admin_login();  // Login Credentials
         Functions.simpleWait(Constants.wait_2);
         CP.ContractorProposal();  // Proposal Creation
+        Functions.simpleWait(Constants.wait_2);
+        CP.MileStone_Creation();
 
 
 

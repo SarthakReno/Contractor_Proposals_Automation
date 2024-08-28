@@ -28,7 +28,8 @@ public class Contractor_Proposals {
         By description = By.xpath("//*[@id=\"description\"]");
         By Customer_name = By.xpath("//*[@id=\"customerName\"]");
         By Scope_of_work = By.xpath("//*[@id=\"scopeOfWork\"]");
-        By image = By.xpath("//*[@id=\"rc-tabs-1-panel-1\"]/div/div[1]/div/div/span/div[1]/span/div/div");
+        By save_continue = By.xpath("//*[@id=\"rc-tabs-1-panel-1\"]/div/div[2]/div[2]/button/span");
+
 
 
 
@@ -131,6 +132,28 @@ public class Contractor_Proposals {
         }
         Functions.simpleWait(Constants.wait_2);
 
+        try{
+            WebElement save_button = Functions.driver.findElement(save_continue);
+            save_button.click();
+            print("The user was successfully click on the save and continue");
+        }catch (Exception e){
+            print("************ Test Case Fail **************");
+            print("The user was not able to click on the save and continue button");
+        }
+    }
+    public void MileStone_Creation(){
+        By milestone_click = By.xpath("//*[@id=\"rc-tabs-1-panel-2\"]/div/div[1]/button/span[2]");
+
+
+        // when user click on the milestone button
+        try{
+            WebElement milestone = Functions.driver.findElement(milestone_click);
+            milestone.click();
+            print("The user was successfully click on the milestone button");
+        }catch (Exception e){
+            print("************ Test Case Fail **************");
+            print("The user was not able to click on create mileStone button");
+        }
 
     }
 }
