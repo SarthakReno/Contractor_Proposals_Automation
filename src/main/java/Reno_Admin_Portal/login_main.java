@@ -24,8 +24,9 @@ public class login_main {
         Functions.simpleWait(Constants.wait_2);
         CP.ContractorProposal();  // Proposal Creation
         Functions.simpleWait(Constants.wait_2);
-        CP.MileStone_Creation();
-
+        CP.MileStone_Creation();  // Create milestone
+        Functions.simpleWait(Constants.wait_2);
+        CP.budget_creation(); // Budget creation
 
 
   }

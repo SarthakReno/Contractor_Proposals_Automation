@@ -2,9 +2,9 @@ package Locators;
 import Utility.Functions;
 import Utility.Constants;
 import static Utility.Functions.print;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+
+import org.apache.commons.io.input.WindowsLineEndingInputStream;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -143,6 +143,10 @@ public class Contractor_Proposals {
     }
     public void MileStone_Creation(){
         By milestone_click = By.xpath("//*[@id=\"rc-tabs-1-panel-2\"]/div/div[1]/button/span[2]");
+        By design_milestone = By.xpath("//*[@id=\"milestoneType\"]/label[1]/span[2]");
+        By milestone_name = By.xpath("//*[@id=\"name\"]");
+        By milestone_description = By.xpath("//*[@id=\"description\"]");
+        By create_milestone_button = By.xpath("/html/body/div[3]/div[2]/div/div[2]/div[3]/button/span");
 
 
         // when user click on the milestone button
@@ -154,6 +158,81 @@ public class Contractor_Proposals {
             print("************ Test Case Fail **************");
             print("The user was not able to click on create mileStone button");
         }
+        Functions.simpleWait(Constants.wait_2);
 
+        // When user click on the design milestone button
+        try{
+            WebElement Design_milestone = Functions.driver.findElement(design_milestone);
+            Design_milestone.click();
+            print("The user was successfully click on the design milestone");
+        }catch (Exception e){
+            print("************ Test Case Fail **************");
+            print("The user was not able to click on the design milestone");
+        }
+        Functions.simpleWait(Constants.wait_2);
+
+        try{
+            if (milestone_name!= null){
+                WebElement name = Functions.driver.findElement(milestone_name);
+                name.sendKeys("MileStone Number 1");
+                print("The user was successfully give our MileStone Name");
+            }
+        }catch(Exception e){
+            print("************ Test Case Fail **************");
+            print("The user not gives our milestone name");
+        }
+        Functions.simpleWait(Constants.wait_2);
+
+        try{
+            WebDriverWait wait = new WebDriverWait(Functions.driver, Duration.ofSeconds(5));
+            WebElement description = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[3]/div[2]/div/div[2]/div[2]/form/div[2]/div[2]/div/div[1]/div[2]/div[1]/div/span/textarea")));
+           description.sendKeys("Test");
+           print("The user was successfully give the milestone description");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Functions.simpleWait(Constants.wait_2);
+        try{
+            WebElement create_button = Functions.driver.findElement(create_milestone_button);
+            create_button.click();
+            print("The user was successfully click on the create button");
+        }catch (Exception e){
+            print("************ Test Case Fail **************");
+            print("The user was not able to click on the create milestone button");
+        }
+    }
+    public void budget_creation(){
+        By budget = By.xpath("//*[@id=\"rc-tabs-1-tab-3\"]/span");
+        By see_more = By.xpath("//*[@id=\"rc-tabs-1-panel-3\"]/div/div[1]/div/div/div/span/div");
+        By add_budget = By.xpath("//*[@id=\"rc-tabs-1-panel-3\"]/div/div[1]/div/div/div[2]/div/div/button/span[2]");
+
+        try {
+            WebElement budget_button = Functions.driver.findElement(budget);
+            budget_button.click();
+            print("The user was successfully click on the budget section");
+        }catch (Exception e){
+            print("************ Test Case Fail **************");
+            print("The user was not able to click on budget selection button");
+        }
+        Functions.simpleWait(Constants.wait_2);
+        try{
+            if (see_more !=null){
+                WebElement button = Functions.driver.findElement(see_more);
+                button.click();
+            }
+        }catch (Exception e){
+            print("************ Test Case Fail **************");
+            print("The user was not able to click on the See More button comes in budget");
+        }
+
+        Functions.simpleWait(Constants.wait_2);
+        try{
+            WebElement add_budget_item = Functions.driver.findElement(add_budget);
+            add_budget_item.click();
+            print("The user was successfully click on the budget creation part");
+        }catch (Exception e){
+            print("************ Test Case Fail **************");
+            print("The user was not able to click on the budget creation part");
+        }
     }
 }
