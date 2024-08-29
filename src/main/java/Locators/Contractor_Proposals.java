@@ -204,7 +204,6 @@ public class Contractor_Proposals {
     public void budget_creation(){
         By budget = By.xpath("//*[@id=\"rc-tabs-1-tab-3\"]/span");
         By see_more = By.xpath("//*[@id=\"rc-tabs-1-panel-3\"]/div/div[1]/div/div/div/span/div");
-        By add_budget = By.xpath("//*[@id=\"rc-tabs-1-panel-3\"]/div/div[1]/div/div/div[2]/div/div/button/span[2]");
 
         try {
             WebElement budget_button = Functions.driver.findElement(budget);
@@ -226,13 +225,81 @@ public class Contractor_Proposals {
         }
 
         Functions.simpleWait(Constants.wait_2);
-        try{
-            WebElement add_budget_item = Functions.driver.findElement(add_budget);
-            add_budget_item.click();
-            print("The user was successfully click on the budget creation part");
-        }catch (Exception e){
-            print("************ Test Case Fail **************");
-            print("The user was not able to click on the budget creation part");
+        String add_budget_button = "//*[@id=\"rc-tabs-1-panel-3\"]/div/div[1]/div/div/div[2]/div/div/button/span[2]";
+        String budgetName = "//*[@id=\"name\"]";
+        String materialType = "//*[@id=\"materialType\"]";
+        String materialUnitDropdown = "/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[3]/div[1]/div/div/div[2]/div/div/div/div[1]/span[1]/input";
+        String quantity = "//*[@id=\"materialQuantity\"]";
+        String description = "/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[4]/div/div/div/div[2]/div/div/textarea";
+
+        for (int i = 0; i < 20; i++) {
+            print("222222222222222222222222222222222222222222222222222222222222222222222");
+            // Click the button to open the popup
+//            WebElement budget_button = Functions.driver.findElement(By.xpath(add_budget_button));
+//            budget_button.click();
+
+            boolean buttonFound = false;
+
+            // Try finding and clicking the button
+            while (!buttonFound) {
+                try {
+                    WebElement button = Functions.driver.findElement(By.xpath(add_budget_button));
+                    button.click();
+                    buttonFound = true;  // Break the loop if the button is clicked successfully
+                } catch (NoSuchElementException e) {
+                    // Scroll down if the button is not found
+                    JavascriptExecutor js = (JavascriptExecutor) driver;
+                    js.executeScript("window.scrollBy(0, 500);");  // Scroll down by 500 pixels (adjust as needed)
+                } catch (WebDriverException e) {
+                    // Handle other WebDriver exceptions
+                    System.out.println("An error occurred: " + e.getMessage());
+                    break;
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // Wait for the budget name section
+            Functions.simpleWait(Constants.wait_2);
+            WebDriverWait wait = new WebDriverWait(Functions.driver, Duration.ofSeconds(10));
+            WebElement budget_name = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[1]/div/div/div/div[2]/div/div/input")));
+            budget_name.sendKeys("Budget Number "+ (i + 1));
+
+            Functions.simpleWait(Constants.wait_2);
+            Functions.driver.findElement(By.xpath(materialType)).sendKeys("Material Type " + (i + 1));
+
+            WebElement dropdown = Functions.driver.findElement(By.xpath(materialUnitDropdown));
+            dropdown.click();
+            Functions.simpleWait(Constants.wait_2);
+            WebDriverWait wait1 = new WebDriverWait(Functions.driver, Duration.ofSeconds(20));
+            WebElement option = wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[3]/div[1]" +
+                    "/div/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div[1]/div/div")));
+            option.click();
+            Functions.simpleWait(Constants.wait_2);
+            Functions.driver.findElement(By.xpath(quantity)).sendKeys(String.valueOf(i + 1));
+            Functions.simpleWait(Constants.wait_2);
+            Functions.driver.findElement(By.xpath(description)).sendKeys("Description " + (i + 1));
+            Functions.simpleWait(Constants.wait_2);
+            WebElement submitButton = Functions.driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div[3]/button/span"));
+            submitButton.click();
+            Functions.simpleWait(Constants.wait_2);
+            print("333333333333333333333333333333333333333333333333333333");
         }
+        print("444444444444444444444444444444444444444444444444444444444444");
     }
 }
