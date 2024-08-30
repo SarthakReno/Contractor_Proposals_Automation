@@ -1,5 +1,6 @@
 package Utility;
 
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -68,6 +69,8 @@ public class Functions {
        // Print the generated random email
        print("Random Email: " + randomEmail);
    }
+
+
 
 }
 

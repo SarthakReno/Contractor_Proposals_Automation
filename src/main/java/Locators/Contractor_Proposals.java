@@ -226,54 +226,25 @@ public class Contractor_Proposals {
 
         Functions.simpleWait(Constants.wait_2);
         String add_budget_button = "//*[@id=\"rc-tabs-1-panel-3\"]/div/div[1]/div/div/div[2]/div/div/button/span[2]";
-        String budgetName = "//*[@id=\"name\"]";
         String materialType = "//*[@id=\"materialType\"]";
         String materialUnitDropdown = "/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[3]/div[1]/div/div/div[2]/div/div/div/div[1]/span[1]/input";
         String quantity = "//*[@id=\"materialQuantity\"]";
         String description = "/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[4]/div/div/div/div[2]/div/div/textarea";
 
         for (int i = 0; i < 20; i++) {
-            print("222222222222222222222222222222222222222222222222222222222222222222222");
-            // Click the button to open the popup
-//            WebElement budget_button = Functions.driver.findElement(By.xpath(add_budget_button));
-//            budget_button.click();
+            try {
+                // add button xpath
+                WebElement element = Functions.driver.findElement(By.xpath(add_budget_button));
 
-            boolean buttonFound = false;
+                // Scroll to the element
+                JavascriptExecutor js = (JavascriptExecutor) Functions.driver;
+                js.executeScript("arguments[0].scrollIntoView(true);", element);
 
-            // Try finding and clicking the button
-            while (!buttonFound) {
-                try {
-                    WebElement button = Functions.driver.findElement(By.xpath(add_budget_button));
-                    button.click();
-                    buttonFound = true;  // Break the loop if the button is clicked successfully
-                } catch (NoSuchElementException e) {
-                    // Scroll down if the button is not found
-                    JavascriptExecutor js = (JavascriptExecutor) driver;
-                    js.executeScript("window.scrollBy(0, 500);");  // Scroll down by 500 pixels (adjust as needed)
-                } catch (WebDriverException e) {
-                    // Handle other WebDriver exceptions
-                    System.out.println("An error occurred: " + e.getMessage());
-                    break;
-                }
+                // Interact with the element
+                element.click();
+            } catch (NoSuchElementException e) {
+                print("Element not found");
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             // Wait for the budget name section
             Functions.simpleWait(Constants.wait_2);
             WebDriverWait wait = new WebDriverWait(Functions.driver, Duration.ofSeconds(10));
@@ -298,8 +269,8 @@ public class Contractor_Proposals {
             WebElement submitButton = Functions.driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div[3]/button/span"));
             submitButton.click();
             Functions.simpleWait(Constants.wait_2);
-            print("333333333333333333333333333333333333333333333333333333");
         }
-        print("444444444444444444444444444444444444444444444444444444444444");
+
     }
+
 }
