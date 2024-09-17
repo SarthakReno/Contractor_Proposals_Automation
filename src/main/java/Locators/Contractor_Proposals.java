@@ -8,7 +8,13 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
 
 
 public class Contractor_Proposals {
@@ -145,10 +151,9 @@ public class Contractor_Proposals {
         By milestone_click = By.xpath("//*[@id=\"rc-tabs-1-panel-2\"]/div/div[1]/button/span[2]");
         By design_milestone = By.xpath("//*[@id=\"milestoneType\"]/label[1]/span[2]");
         By milestone_name = By.xpath("//*[@id=\"name\"]");
-        By milestone_description = By.xpath("//*[@id=\"description\"]");
         By create_milestone_button = By.xpath("/html/body/div[3]/div[2]/div/div[2]/div[3]/button/span");
 
-
+        Functions.simpleWait(Constants.wait_2);
         // when user click on the milestone button
         try{
             WebElement milestone = Functions.driver.findElement(milestone_click);
@@ -181,7 +186,7 @@ public class Contractor_Proposals {
             print("************ Test Case Fail **************");
             print("The user not gives our milestone name");
         }
-        Functions.simpleWait(Constants.wait_2);
+        Functions.simpleWait(Constants.wait_3);
 
         try{
             WebDriverWait wait = new WebDriverWait(Functions.driver, Duration.ofSeconds(5));
@@ -191,7 +196,37 @@ public class Contractor_Proposals {
         }catch (Exception e){
             e.printStackTrace();
         }
-        Functions.simpleWait(Constants.wait_2);
+        Functions.simpleWait(Constants.wait_3);
+
+        LocalDate today = LocalDate.now();
+        LocalDate nextDate = today.plusDays(1);
+        String nextDateFormatted = nextDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.ENGLISH));
+        // Get week and day of week for the next date
+        WeekFields weekFields = WeekFields.of(DayOfWeek.MONDAY, 1);
+        TemporalField weekOfMonth = weekFields.weekOfMonth();
+        int weekOfMonthValue = nextDate.get(weekOfMonth);
+        int dayOfWeekValue = nextDate.getDayOfWeek().getValue();
+        WebElement calendarButton = Functions.driver.findElement(By.xpath("/html/body/div[3]/div[2]/div/div[2]/div[2]/form/div[3]/div[1]/div/div/div[2]/div/div/div/div/input"));
+        calendarButton.click();
+        print("The user successfully click on the calendar option section");
+        Functions.simpleWait(Constants.wait_3);
+        try {
+            WebElement tableBody = Functions.driver.findElement(By.xpath("/html/body/div[4]/div/div/div/div/div[1]/div[2]/table/tbody"));
+            WebElement dateElement = tableBody.findElement(By.xpath(".//tr[" + weekOfMonthValue + "]//td[" + (dayOfWeekValue + 1) + "]"));
+            ((JavascriptExecutor) Functions.driver).executeScript("arguments[0].scrollIntoView(true);", dateElement);
+            dateElement.click();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Functions.simpleWait(Constants.wait_5);
+        WebElement endtime = Functions.driver.findElement(By.xpath("/html/body/div[3]/div[2]/div/div[2]/div[2]/form/div[3" +
+                "]/div[2]/div/div[1]/div[2]/div[1]/div/div/div/input"));
+        endtime.click();
+        WebElement select_end_date = Functions.driver.findElement(By.xpath("/html/body/div[5]/div/div/div/div/div[1]/div[2]/table/tbody/tr[5]/td[2]/div"));
+        select_end_date.click();
+        Functions.simpleWait(Constants.wait_3);
+
+
         try{
             WebElement create_button = Functions.driver.findElement(create_milestone_button);
             create_button.click();
@@ -204,6 +239,8 @@ public class Contractor_Proposals {
     public void budget_creation(){
         By budget = By.xpath("//*[@id=\"rc-tabs-1-tab-3\"]/span");
         By see_more = By.xpath("//*[@id=\"rc-tabs-1-panel-3\"]/div/div[1]/div/div/div/span/div");
+        By save_continue = By.xpath("//*[@id=\"rc-tabs-1-panel-3\"]/div/div[2]/div[2]/button[2]/span");
+
 
         try {
             WebElement budget_button = Functions.driver.findElement(budget);
@@ -229,9 +266,9 @@ public class Contractor_Proposals {
         String materialType = "//*[@id=\"materialType\"]";
         String materialUnitDropdown = "/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[3]/div[1]/div/div/div[2]/div/div/div/div[1]/span[1]/input";
         String quantity = "//*[@id=\"materialQuantity\"]";
-        String description = "/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[4]/div/div/div/div[2]/div/div/textarea";
+        String description = "/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[5]/div/div/div/div[2]/div/div/textarea";
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 2; i++) {
             try {
                 // add button xpath
                 WebElement element = Functions.driver.findElement(By.xpath(add_budget_button));
@@ -252,8 +289,10 @@ public class Contractor_Proposals {
             budget_name.sendKeys("Budget Number "+ (i + 1));
 
             Functions.simpleWait(Constants.wait_2);
+            // When user give our material type name
             Functions.driver.findElement(By.xpath(materialType)).sendKeys("Material Type " + (i + 1));
 
+            // When user click on the dropdown button to select the unit value in dropdown
             WebElement dropdown = Functions.driver.findElement(By.xpath(materialUnitDropdown));
             dropdown.click();
             Functions.simpleWait(Constants.wait_2);
@@ -264,13 +303,96 @@ public class Contractor_Proposals {
             Functions.simpleWait(Constants.wait_2);
             Functions.driver.findElement(By.xpath(quantity)).sendKeys(String.valueOf(i + 1));
             Functions.simpleWait(Constants.wait_2);
+            // Enter the unit price
+            WebElement unitPrice = Functions.driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[3]/div[2]/div/div[1]/div[2]/div[1]/div/input"));
+            unitPrice.sendKeys(String.valueOf(200 + (i * 100)));
+            Functions.simpleWait(Constants.wait_2);
+            Functions.driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[4]/div[1]/div/div/div[2]/div/div/input")).sendKeys("500");
+            Functions.simpleWait(Constants.wait_2);
+            int[] daysValues = {20, 25, 30};
+            Functions.driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[4]/div[2]/div/div/div[2]/div/div/input")).sendKeys(String.valueOf(daysValues[i % 3]));
+            Functions.simpleWait(Constants.wait_2);
             Functions.driver.findElement(By.xpath(description)).sendKeys("Description " + (i + 1));
             Functions.simpleWait(Constants.wait_2);
-            WebElement submitButton = Functions.driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div[3]/button/span"));
-            submitButton.click();
+            WebElement createButton = Functions.driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div[3]/button/span"));
+            createButton.click();
             Functions.simpleWait(Constants.wait_2);
         }
-
+        Functions.simpleWait(Constants.wait_2);
+        try{   // When user click on the save & continue button to save the budget items
+            WebElement submitbutton = Functions.driver.findElement(save_continue);
+            submitbutton.click();
+            print("The user was successfully click on the save and continue");
+        }catch (Exception e){
+            print("*********** Test Case Fail ***************");
+            print("The user not able to click on the save & continue button");
+        }
+        Functions.simpleWait(Constants.wait_2);
     }
 
+    public void payment_group (){
+        By add_payment_group = By.xpath("/html/body/div[2]/div[3]/div/div/div[2]/div/div/div[2]/div/div[4]/div/div[1]/div/button/span[2]");
+        By payment_name = By.xpath("/html/body/div[5]/div[2]/div/div[2]/div[2]/form/div[1]/div/div/div/div[2]/div/div/input");
+        By add_payment_group_button = By.xpath("/html/body/div[5]/div[2]/div/div[2]/div[3]/button/span");
+        By save_and_continue = By.xpath("//*[@id=\"rc-tabs-1-panel-4\"]/div/div[2]/div[2]/button[2]/span");
+        try{
+            Functions.simpleWait(Constants.wait_2);
+            WebElement payment_group = Functions.driver.findElement(add_payment_group);
+            payment_group.click();
+            print("The user successfully click on the add payment group button");
+        }catch (Exception e){
+            print("************ Test Case Fail **************");
+            print("The user not able to click on the add payment group button");
+        }
+        Functions.simpleWait(Constants.wait_2);
+        try{
+            WebElement add_payment_name = Functions.driver.findElement(payment_name);
+            add_payment_name.sendKeys("Test Payment 1");
+            print("The user was successfully give the payment name");
+        }catch (Exception e) {
+            print("********** Test Case Fail **********");
+            print("The user not able to give the payment name");
+        }
+        Functions.simpleWait(Constants.wait_2);
+        try {
+            WebElement checkbox = Functions.driver.findElement(By.xpath("//input[@class='ant-checkbox-input']"));
+                checkbox.click();
+                print("The user was successfully click on the payment checkbox");
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+        Functions.simpleWait(Constants.wait_2);
+        try{
+            WebElement submit_button = Functions.driver.findElement(add_payment_group_button);
+            submit_button.click();
+            print("The user successfully click on the submit button");
+        }catch (Exception e){
+            print("********** Test Case Fail **********");
+            print("The user not able to not able to click on the submit button");
+        }
+        Functions.simpleWait(Constants.wait_2);
+        try {
+            WebElement save_button = Functions.driver.findElement(save_and_continue);
+            save_button.click();
+            print("The user was able to click on the save and continue button");
+        }catch (Exception e){
+            print("********** Test Case Fail **********");
+            print("The user not able to not able to click on the Save and Continue button");
+        }
+    }
+    public void summary (){
+        By save_button = By.xpath("//*[@id=\"rc-tabs-1-panel-5\"]/div/div[2]/div[2]/button[2]");
+        Functions.simpleWait(Constants.wait_2);
+        try{
+            WebElement button = Functions.driver.findElement(save_button);
+            button.click();
+            print("The user was able to click on the save button on summary screen");
+        }catch (Exception e){
+            print("********** Test Case Fail **********");
+            print("The user was not able to click on the summary's save button");
+
+        }
+    }
 }

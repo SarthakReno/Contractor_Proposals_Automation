@@ -27,6 +27,10 @@ public class login_main {
         CP.MileStone_Creation();  // Create milestone
         Functions.simpleWait(Constants.wait_2);
         CP.budget_creation(); // Budget creation
+        Functions.simpleWait(Constants.wait_2);
+        CP.payment_group(); // To add the Payment group
+        Functions.simpleWait(Constants.wait_2);
+        CP.summary();  // Summary screen
 
 
   }
