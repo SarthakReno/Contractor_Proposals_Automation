@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>untitled1</artifactId>
+    <artifactId>Admin_Automation</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -31,7 +31,4 @@
 
     </dependencies>
 
-
-
-
-</project>
+ </project>

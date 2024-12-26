@@ -17,13 +17,14 @@ public class Functions {
 
     public static void MyChromeDriver() {
         try {
-            WebDriverManager.chromedriver().setup();
+            WebDriverManager.chromedriver().browserVersion("131.0.6778.70").setup();
             driver = new ChromeDriver();
             driver.manage().window().maximize(); // for maximize the chrome screen
-            // Navigate to a website make my trip
+            // Navigate to a website Reno Admin
             driver.get("https://reno-test-admin.azurewebsites.net/dashboard");
             System.out.println("Reno Admin Launched");
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Reno Admin app doesn't launch");
         }
     }

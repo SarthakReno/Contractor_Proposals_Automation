@@ -17,6 +17,7 @@ public class login_main {
         functionCall = new Functions(driver);
         LoginScreen loginScreen = new LoginScreen(driver);
         Contractor_Proposals CP = new Contractor_Proposals(driver);
+        Assign_contractor AC = new Assign_contractor(driver);
 
         Functions.MyChromeDriver();  // To launch my chrome driver
         Functions.simpleWait(Constants.wait_2);
@@ -31,7 +32,11 @@ public class login_main {
         CP.payment_group(); // To add the Payment group
         Functions.simpleWait(Constants.wait_2);
         CP.summary();  // Summary screen
+        Functions.simpleWait(Constants.wait_2);
+        AC.assign_contractor(); // Assign to contractor
 
 
-  }
+
+
+    }
 }

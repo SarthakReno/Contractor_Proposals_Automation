@@ -2,12 +2,9 @@ package Locators;
 import Utility.Functions;
 import Utility.Constants;
 import static Utility.Functions.print;
-
-import org.apache.commons.io.input.WindowsLineEndingInputStream;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -15,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
+import java.util.function.Function;
 
 
 public class Contractor_Proposals {
@@ -65,13 +63,13 @@ public class Contractor_Proposals {
             print("The user was not able to click on the create proposal button");
         }
 
-        Functions.simpleWait(Constants.wait_2);
+        Functions.simpleWait(Constants.wait_3);
 
         // When user select the project Type
         try {
             WebElement dropdown = Functions.driver.findElement(select_project_type);
             dropdown.click();
-            Functions.simpleWait(Constants.wait_2);
+            Functions.simpleWait(Constants.wait_5);
             WebDriverWait wait = new WebDriverWait(Functions.driver, Duration.ofSeconds(20));
             WebElement option = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"rc-tabs-1-panel-1\"]/div/div[1]/form/d" +
                     "iv[1]/div[1]/div/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div[1]/div/div")));
@@ -87,7 +85,7 @@ public class Contractor_Proposals {
         // When user give the Project name
         try{
             WebElement project_name = Functions.driver.findElement(Project_name);
-            project_name.sendKeys("Test Project 1");
+            project_name.sendKeys("Automation Project");
             print("The user was successfully give the project type");
         }catch (Exception e){
             print("************ Test Case Fail **************");
@@ -146,6 +144,7 @@ public class Contractor_Proposals {
             print("************ Test Case Fail **************");
             print("The user was not able to click on the save and continue button");
         }
+        Functions.simpleWait(Constants.wait_6);
     }
     public void MileStone_Creation(){
         By milestone_click = By.xpath("//*[@id=\"rc-tabs-1-panel-2\"]/div/div[1]/button/span[2]");
@@ -153,7 +152,7 @@ public class Contractor_Proposals {
         By milestone_name = By.xpath("//*[@id=\"name\"]");
         By create_milestone_button = By.xpath("/html/body/div[3]/div[2]/div/div[2]/div[3]/button/span");
 
-        Functions.simpleWait(Constants.wait_2);
+        Functions.simpleWait(Constants.wait_5);
         // when user click on the milestone button
         try{
             WebElement milestone = Functions.driver.findElement(milestone_click);
@@ -196,7 +195,7 @@ public class Contractor_Proposals {
         }catch (Exception e){
             e.printStackTrace();
         }
-        Functions.simpleWait(Constants.wait_3);
+        Functions.simpleWait(Constants.wait_5);
 
         LocalDate today = LocalDate.now();
         LocalDate nextDate = today.plusDays(1);
@@ -222,8 +221,11 @@ public class Contractor_Proposals {
         WebElement endtime = Functions.driver.findElement(By.xpath("/html/body/div[3]/div[2]/div/div[2]/div[2]/form/div[3" +
                 "]/div[2]/div/div[1]/div[2]/div[1]/div/div/div/input"));
         endtime.click();
-        WebElement select_end_date = Functions.driver.findElement(By.xpath("/html/body/div[5]/div/div/div/div/div[1]/div[2]/table/tbody/tr[5]/td[2]/div"));
+        WebElement select_end_date = Functions.driver.findElement(By.xpath("/html/body/div[5]/div/div/div/div/div[1]/div[1]/button[3]"));
         select_end_date.click();
+        Functions.simpleWait(Constants.wait_3);
+        WebElement date = Functions.driver.findElement(By.xpath("/html/body/div[5]/div/div/div/div/div[1]/div[2]/table/tbody/tr[5]/td[5]/div"));
+        date.click();
         Functions.simpleWait(Constants.wait_3);
 
 
@@ -268,7 +270,7 @@ public class Contractor_Proposals {
         String quantity = "//*[@id=\"materialQuantity\"]";
         String description = "/html/body/div[4]/div[2]/div/div[2]/div[2]/div/form/div[5]/div/div/div/div[2]/div/div/textarea";
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1; i++) {
             try {
                 // add button xpath
                 WebElement element = Functions.driver.findElement(By.xpath(add_budget_button));
